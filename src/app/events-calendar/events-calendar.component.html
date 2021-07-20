@@ -1,0 +1,62 @@
+<div class="calendario">
+    <h3>Calendario degli eventi:</h3>
+    <div class="d-flex align-items-start">
+        <ngb-datepicker [dayTemplate]="customDay" (click)=showDate(model) [(ngModel)]="model"></ngb-datepicker>
+
+        <ng-template #customDay let-date="date">
+            <span 
+                [class.has-event]="hasEvent(date)">
+                {{ date.day }}
+                </span>
+        </ng-template>
+
+
+        <div class="evento" *ngIf="showEvent">
+            <a (click)="hideEvent()">x</a>
+            <span>
+                <img src={{todayEvent.img}} />
+                <div>
+                    <h6>{{todayEvent.event}}</h6>
+                    <p>{{todayEvent.day}}/{{todayEvent.month}}/{{todayEvent.year}} h: {{todayEvent.ore}}</p>
+                    <p>{{todayEvent.place}}</p>
+                </div>
+                <agm-map [latitude]="todayEvent.lat" [longitude]="todayEvent.lng">
+                    <agm-marker [latitude]="todayEvent.lat" [longitude]="todayEvent.lng"></agm-marker>
+                </agm-map>
+                <button (click)="aggiungiEvento(todayEvent)">Add to my Calendar</button>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="calendario">
+    <h3>Calendario degli tuoi eventi:</h3>
+    <div class="d-flex">
+        <ngb-datepicker [dayTemplate]="customMyDay" (click)=showMyDate(myModel) [(ngModel)]="myModel"></ngb-datepicker>
+
+        <ng-template #customMyDay let-date >
+            <span [class.has-event]="hasMyEvent(date)">
+                {{ date.day }}
+            </span>
+        </ng-template>
+
+
+        <div class="evento" *ngIf="showMyEvent">
+            <a (click)="hideEvent()">x</a>
+            <span>
+                <img src={{todayMyEvent.img}} />
+                <div>
+                    <h5>Programma per oggi:</h5>
+                    <h6>{{todayMyEvent.event}}</h6>
+                    <p>{{todayMyEvent.day}}/{{todayMyEvent.month}}/{{todayMyEvent.year}} h: {{todayMyEvent.ore}}</p>
+                    <p>{{todayMyEvent.place}}</p>
+                </div>
+                <button (click)="removeMyEvent(todayMyEvent)">Remove from my Calendar</button>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="addEvent" *ngIf="showScheda">
+    <p>Hai aggiunto: </p>
+    <h6> {{scheda.event}} {{scheda.day}}/{{scheda.month}}/{{scheda.year}}</h6>
+    <p>al tuo calendario</p>
+</div>
